@@ -6,14 +6,13 @@ from api.utils import process_cv_and_job_description
 import os
 
 class UploadCVView(APIView):
-    parser_classes = [parsers.MultiPartParser, parsers.FormParser]  # Для прийому файлів
+    parser_classes = [parsers.MultiPartParser, parsers.FormParser] 
 
     def post(self, request):
         file_obj = request.FILES.get('cv')
         if not file_obj:
             return Response({'error': 'No CV file provided'}, status=status.HTTP_400_BAD_REQUEST)
         
-        # Зберегти файл у media/cv.pdf
         file_path = os.path.join(settings.MEDIA_ROOT, 'cv.pdf')
 
         os.makedirs(os.path.dirname(file_path), exist_ok=True)
@@ -31,7 +30,6 @@ class UploadJobDescriptionView(APIView):
         if not job_description:
             return Response({'error': 'No job description provided'}, status=status.HTTP_400_BAD_REQUEST)
         
-        # Зберегти в файл
         file_path = os.path.join(settings.MEDIA_ROOT, 'job_description.txt')
         with open(file_path, 'w', encoding='utf-8') as file:
             file.write(job_description)
